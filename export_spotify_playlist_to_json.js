@@ -15,7 +15,14 @@ setTimeout(() => { // small delay to allow browser to scroll to the top
         if (lastRowNr-2 > result.length-1) { // has list updated yet?
           document.querySelectorAll("[data-testid='playlist-tracklist'] > div:nth-of-type(2) [role='row']").forEach(row => {
             console.log("Track " + (row.getAttribute("aria-rowindex")-1) + "/" + (totalRows-1));
+            const anchor = row.querySelector('a[href^="/track/"]');
+            let id;
+            if (anchor) {
+              const href = anchor.getAttribute('href');
+              id = href.split('/').pop(); // This gets the last part after the last '/'
+            }
             let nr = {
+	      id,
               title: row.querySelector("div[dir='auto']").textContent,
               album: row.querySelector("div > div:nth-of-type(3) > span").textContent,
               artist: [],
